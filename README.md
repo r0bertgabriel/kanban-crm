@@ -141,7 +141,7 @@ kanban-crm/
     ├── index.html         # Interface HTML
     ├── styles.css         # Estilos CSS
     └── script.js          # Lógica JavaScript
-```
+
 
 ## 🔧 Características Técnicas
 
@@ -353,4 +353,3 @@ Para dúvidas ou problemas:
 
 ---
 
-**Desenvolvido com ❤️ usando FastAPI e tecnologias modernas**
