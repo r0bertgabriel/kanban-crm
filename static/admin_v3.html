@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Kanban - Admin v3.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .controls select, .controls button, .controls input {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .controls button {
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .controls button.success {
+            background: #10b981;
+        }
+
+        .controls button.success:hover {
+            background: #059669;
+        }
+
+        .controls button.danger {
+            background: #ef4444;
+        }
+
+        .controls button.danger:hover {
+            background: #dc2626;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-urgente {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .badge-atencao {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-moderado {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .badge-critico {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+
+        .badge-ativo {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .badge-disponivel {
+            background: #e0e7ff;
+            color: #4f46e5;
+        }
+
+        .badge-atribuido {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-contatado {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 2px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .exportacao-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exportacao-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .modal-content textarea {
+            width: 100%;
+            height: 400px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .login-container h2 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            background: #5568d3;
+        }
+
+        .error {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        #main-content {
+            display: none;
+        }
+
+        .filtros {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filtros input[type="text"] {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filtros select {
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login -->
+    <div id="login-container" class="login-container">
+        <h2>🔐 CRM Kanban - Login Admin</h2>
+        <div class="form-group">
+            <label>Usuário:</label>
+            <input type="text" id="usuario" value="admin">
+        </div>
+        <div class="form-group">
+            <label>Senha:</label>
+            <input type="password" id="senha" value="admin123">
+        </div>
+        <button class="btn-login" onclick="fazerLogin()">Entrar</button>
+        <div id="login-error" class="error"></div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div id="main-content">
+        <div class="container">
+            <header>
+                <h1>🎯 CRM Kanban v3.0 - Painel Administrativo</h1>
+                <p class="subtitle">Sistema simplificado para gestão e exportação de clientes</p>
+            </header>
+
+            <!-- Estatísticas -->
+            <div class="stats" id="stats"></div>
+
+            <!-- Controles -->
+            <div class="controls">
+                <input type="text" id="busca" placeholder="🔍 Buscar por nome, telefone ou email...">
+                
+                <select id="filtro-periodo">
+                    <option value="">Todos os períodos</option>
+                    <option value="urgente">🔥 Urgente (30-45d)</option>
+                    <option value="atencao">⚠️ Atenção (45-60d)</option>
+                    <option value="moderado">⏰ Moderado (60-90d)</option>
+                    <option value="critico">📊 Crítico (>90d)</option>
+                    <option value="ativo">Ativo (<30d)</option>
+                </select>
+
+                <select id="filtro-status">
+                    <option value="">Todos os status</option>
+                    <option value="disponivel">Disponível</option>
+                    <option value="atribuido">Atribuído</option>
+                    <option value="contatado">Contatado</option>
+                </select>
+
+                <select id="filtro-vendedor">
+                    <option value="">Todos os vendedores</option>
+                </select>
+
+                <button onclick="selecionarTodos()">✅ Selecionar Todos</button>
+                <button onclick="limparSelecao()">❌ Limpar Seleção</button>
+                
+                <select id="select-vendedor-atribuicao">
+                    <option value="">Escolha o vendedor...</option>
+                </select>
+                <button class="success" onclick="atribuirSelecionados()">📤 Atribuir ao Vendedor</button>
+                
+                <button onclick="redistribuirAutomatico()" style="background: #f59e0b;">🤖 Redistribuir Automaticamente</button>
+                <button onclick="carregarDados()">🔄 Atualizar</button>
+            </div>
+
+            <!-- Tabela -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all" onchange="toggleSelectAll()"></th>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>Email</th>
+                            <th>Dias</th>
+                            <th>Período</th>
+                            <th>Total Compras</th>
+                            <th>Vendedor</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-clientes">
+                        <tr><td colspan="10" class="loading">Carregando dados...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Exportação -->
+    <div id="modal-exportacao" class="exportacao-modal">
+        <div class="modal-content">
+            <h2>📋 Exportar Clientes para Vendedor</h2>
+            <textarea id="texto-exportacao" readonly></textarea>
+            <div class="modal-buttons">
+                <button class="btn-small btn-success" onclick="copiarTexto()">📋 Copiar</button>
+                <button class="btn-small btn-danger" onclick="fecharModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let clientes = [];
+        let vendedores = [];
+        let clientesFiltrados = [];
+
+        // Login
+        async function fazerLogin() {
+            const usuario = document.getElementById('usuario').value;
+            const senha = document.getElementById('senha').value;
+            const errorDiv = document.getElementById('login-error');
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({usuario, senha})
+                });
+
+                if (response.ok) {
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    await carregarDados();
+                } else {
+                    errorDiv.textContent = 'Usuário ou senha inválidos';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Erro ao conectar ao servidor';
+            }
+        }
+
+        // Carregar dados
+        async function carregarDados() {
+            try {
+                // Carregar clientes
+                const resClientes = await fetch('/api/clientes');
+                clientes = await resClientes.json();
+                clientesFiltrados = [...clientes];
+
+                // Carregar vendedores
+                const resVendedores = await fetch('/api/vendedores');
+                vendedores = await resVendedores.json();
+
+                // Carregar estatísticas
+                const resStats = await fetch('/api/estatisticas');
+                const stats = await resStats.json();
+
+                atualizarFiltroVendedor();
+                atualizarEstatisticas(stats);
+                renderizarTabela();
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            }
+        }
+
+        // Atualizar estatísticas
+        function atualizarEstatisticas(stats) {
+            const statsDiv = document.getElementById('stats');
+            statsDiv.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${stats.total_clientes}</div>
+                    <div class="stat-label">Total Clientes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.disponiveis}</div>
+                    <div class="stat-label">Disponíveis</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.atribuidos}</div>
+                    <div class="stat-label">Atribuídos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.contatados}</div>
+                    <div class="stat-label">Contatados</div>
+                </div>
+            `;
+        }
+
+        // Atualizar filtro de vendedor
+        function atualizarFiltroVendedor() {
+            const select = document.getElementById('filtro-vendedor');
+            const selectAtribuicao = document.getElementById('select-vendedor-atribuicao');
+            
+            const opcoes = vendedores.map(v => `<option value="${v.nome}">${v.nome}</option>`).join('');
+            select.innerHTML = '<option value="">Todos os vendedores</option>' + opcoes;
+            selectAtribuicao.innerHTML = '<option value="">Escolha o vendedor...</option>' + opcoes;
+        }
+
+        // Filtros
+        document.getElementById('busca').addEventListener('input', aplicarFiltros);
+        document.getElementById('filtro-periodo').addEventListener('change', aplicarFiltros);
+        document.getElementById('filtro-status').addEventListener('change', aplicarFiltros);
+        document.getElementById('filtro-vendedor').addEventListener('change', aplicarFiltros);
+
+        function aplicarFiltros() {
+            const busca = document.getElementById('busca').value.toLowerCase();
+            const periodo = document.getElementById('filtro-periodo').value;
+            const status = document.getElementById('filtro-status').value;
+            const vendedor = document.getElementById('filtro-vendedor').value;
+
+            clientesFiltrados = clientes.filter(c => {
+                // Busca
+                const matchBusca = !busca || 
+                    c.nome.toLowerCase().includes(busca) ||
+                    c.celular.includes(busca) ||
+                    c.email.toLowerCase().includes(busca);
+
+                // Período
+                let matchPeriodo = !periodo;
+                if (periodo) {
+                    if (periodo === 'urgente' && c.periodo.includes('Urgente')) matchPeriodo = true;
+                    if (periodo === 'atencao' && c.periodo.includes('Atenção')) matchPeriodo = true;
+                    if (periodo === 'moderado' && c.periodo.includes('Moderado')) matchPeriodo = true;
+                    if (periodo === 'critico' && c.periodo.includes('Crítico')) matchPeriodo = true;
+                    if (periodo === 'ativo' && c.periodo === 'Ativo') matchPeriodo = true;
+                }
+
+                // Status
+                const matchStatus = !status || c.vendedor_atribuido === null && status === 'disponivel' ||
+                    c.vendedor_atribuido !== null && !c.contatado && status === 'atribuido' ||
+                    c.contatado && status === 'contatado';
+
+                // Vendedor
+                const matchVendedor = !vendedor || c.vendedor_atribuido === vendedor;
+
+                return matchBusca && matchPeriodo && matchStatus && matchVendedor;
+            });
+
+            renderizarTabela();
+        }
+
+        // Renderizar tabela
+        function renderizarTabela() {
+            const tbody = document.getElementById('tabela-clientes');
+            
+            if (clientesFiltrados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding: 40px; color: #999;">Nenhum cliente encontrado</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = clientesFiltrados.map(c => {
+                const statusBadge = c.contatado ? 'badge-contatado' : (c.vendedor_atribuido ? 'badge-atribuido' : 'badge-disponivel');
+                const statusTexto = c.contatado ? 'Contatado' : (c.vendedor_atribuido ? 'Atribuído' : 'Disponível');
+                
+                return `
+                    <tr>
+                        <td><input type="checkbox" class="cliente-checkbox" value="${c.id}"></td>
+                        <td><strong>${c.nome}</strong></td>
+                        <td>${c.celular}</td>
+                        <td>${c.email}</td>
+                        <td><strong>${c.dias_sem_comprar}d</strong></td>
+                        <td>${c.periodo}</td>
+                        <td>R$ ${c.valor_total_compras.toFixed(2)}</td>
+                        <td>${c.vendedor_atribuido || '-'}</td>
+                        <td><span class="badge ${statusBadge}">${statusTexto}</span></td>
+                        <td>
+                            ${c.vendedor_atribuido && !c.contatado ? `<button class="btn-small btn-danger" onclick="liberarCliente(${c.id})">🔓 Liberar</button>` : ''}
+                            ${!c.contatado ? `<button class="btn-small btn-success" onclick="marcarContatado(${c.id})">✅ Contatado</button>` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Selecionar todos
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('select-all').checked;
+            document.querySelectorAll('.cliente-checkbox').forEach(cb => cb.checked = selectAll);
+        }
+
+        function selecionarTodos() {
+            document.querySelectorAll('.cliente-checkbox').forEach(cb => cb.checked = true);
+        }
+
+        function limparSelecao() {
+            document.querySelectorAll('.cliente-checkbox').forEach(cb => cb.checked = false);
+            document.getElementById('select-all').checked = false;
+        }
+
+        // Atribuir selecionados
+        async function atribuirSelecionados() {
+            const selecionados = Array.from(document.querySelectorAll('.cliente-checkbox:checked')).map(cb => parseInt(cb.value));
+            
+            if (selecionados.length === 0) {
+                alert('⚠️ Selecione pelo menos um cliente');
+                return;
+            }
+
+            const selectVendedor = document.getElementById('select-vendedor-atribuicao');
+            const vendedorNome = selectVendedor.value;
+            
+            if (!vendedorNome) {
+                alert('⚠️ Escolha um vendedor no dropdown');
+                return;
+            }
+
+            if (!confirm(`Confirma atribuição de ${selecionados.length} cliente(s) para ${vendedorNome}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/atribuir', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({cliente_ids: selecionados, vendedor_nome: vendedorNome})
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(data.message);
+                    await carregarDados();
+                    limparSelecao();
+                    selectVendedor.value = '';
+                } else {
+                    alert('❌ Erro: ' + data.detail);
+                }
+            } catch (error) {
+                alert('❌ Erro ao atribuir clientes: ' + error);
+            }
+        }
+
+        // Redistribuir automaticamente
+        async function redistribuirAutomatico() {
+            if (!confirm('🤖 Redistribuir TODOS os clientes disponíveis automaticamente entre os vendedores?\n\nIsso distribuirá de forma inteligente balanceando a carga.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/redistribuir-automatico', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'}
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    let msg = data.message + '\n\n📊 Distribuição:\n';
+                    if (data.detalhes) {
+                        data.detalhes.forEach(d => {
+                            msg += `\n• ${d.vendedor}: ${d.clientes} cliente(s)`;
+                        });
+                    }
+                    alert(msg);
+                    await carregarDados();
+                } else {
+                    alert('❌ Erro: ' + data.detail);
+                }
+            } catch (error) {
+                alert('❌ Erro ao redistribuir: ' + error);
+            }
+        }
+
+        // Liberar cliente
+        async function liberarCliente(clienteId) {
+            if (!confirm('Deseja liberar este cliente?')) return;
+
+            try {
+                const response = await fetch(`/api/liberar/${clienteId}`, {method: 'POST'});
+                if (response.ok) {
+                    alert('Cliente liberado com sucesso!');
+                    await carregarDados();
+                }
+            } catch (error) {
+                alert('Erro ao liberar cliente');
+            }
+        }
+
+        // Marcar contatado
+        async function marcarContatado(clienteId) {
+            const obs = prompt('Observações sobre o contato (opcional):');
+            
+            try {
+                const response = await fetch(`/api/marcar-contatado/${clienteId}?observacoes=${encodeURIComponent(obs || '')}`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    alert('Cliente marcado como contatado!');
+                    await carregarDados();
+                }
+            } catch (error) {
+                alert('Erro ao marcar cliente');
+            }
+        }
+
+        // Exportar para vendedor
+        async function exportarVendedor(vendedorNome) {
+            try {
+                const response = await fetch(`/api/exportar/${encodeURIComponent(vendedorNome)}`);
+                const data = await response.json();
+                
+                document.getElementById('texto-exportacao').value = data.texto;
+                document.getElementById('modal-exportacao').classList.add('show');
+            } catch (error) {
+                alert('Erro ao exportar dados');
+            }
+        }
+
+        // Copiar texto
+        function copiarTexto() {
+            const textarea = document.getElementById('texto-exportacao');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Texto copiado! Cole no WhatsApp/Telegram do vendedor.');
+        }
+
+        // Fechar modal
+        function fecharModal() {
+            document.getElementById('modal-exportacao').classList.remove('show');
+        }
+
+        // Adicionar botões de exportação nos cards de vendedores
+        async function carregarDadosComVendedores() {
+            await carregarDados();
+            
+            // Adicionar seção de exportação
+            const container = document.querySelector('.container');
+            const exportDiv = document.createElement('div');
+            exportDiv.className = 'controls';
+            exportDiv.style.marginTop = '20px';
+            exportDiv.innerHTML = '<h3 style="width:100%; color: #667eea;">📤 Exportar para Vendedores</h3>';
+            
+            vendedores.forEach(v => {
+                const btn = document.createElement('button');
+                btn.className = 'success';
+                btn.textContent = `📋 Exportar ${v.nome}`;
+                btn.onclick = () => exportarVendedor(v.nome);
+                exportDiv.appendChild(btn);
+            });
+            
+            container.appendChild(exportDiv);
+        }
+
+        // Login com Enter
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('senha').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') fazerLogin();
+            });
+        });
+    </script>
+</body>
+</html>

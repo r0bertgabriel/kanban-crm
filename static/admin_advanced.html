@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Admin v4.0 - Sistema Avançado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Login */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .login-box .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-box button:hover {
+            background: #2a5298;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            color: #1e3c72;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .btn-primary {
+            background: #1e3c72;
+        }
+
+        .btn-success {
+            background: #10b981;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+        }
+
+        .btn-info {
+            background: #06b6d4;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0.9;
+        }
+
+        /* Painel de Distribuição */
+        .distribution-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .distribution-panel h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .distribution-config {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .config-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .config-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .config-group input,
+        .config-group select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .weight-inputs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .weight-input-group {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .weight-input-group label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .weight-input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .distribution-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        /* Vendedores Grid */
+        .vendedores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .vendedor-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .vendedor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            border-color: #1e3c72;
+        }
+
+        .vendedor-card h3 {
+            color: #1e3c72;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .vendedor-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .vendedor-stat strong {
+            color: #333;
+        }
+
+        /* Tabela */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .table-header h2 {
+            color: #1e3c72;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            width: 300px;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background: #1e3c72;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background: #2a5298;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-urgente {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .badge-atencao {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-moderado {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .badge-critico {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+
+        .badge-ativo {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 11px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-contact {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-small:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Copy Text Area */
+        .copy-container {
+            position: relative;
+        }
+
+        .copy-textarea {
+            width: 100%;
+            height: 400px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #059669;
+        }
+
+        .alert {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #059669;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #dc2626;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 2px solid #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+            .distribution-config {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .vendedores-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <h1>🎯 CRM Admin v4.0</h1>
+            <p class="subtitle">Sistema Avançado - Exclusivo Administrador</p>
+            <input type="text" id="loginUsuario" placeholder="Usuário" value="admin">
+            <input type="password" id="loginSenha" placeholder="Senha" value="admin123">
+            <button onclick="fazerLogin()">Entrar</button>
+        </div>
+    </div>
+
+    <!-- App Principal -->
+    <div class="app-container" id="appContainer">
+        <div class="container">
+            <header>
+                <div>
+                    <h1>🎯 CRM Kanban v4.0</h1>
+                    <p class="subtitle">Sistema Avançado de Distribuição Customizável</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-success" onclick="rebalancearAutomatico()">🔄 Rebalancear</button>
+                    <button class="btn btn-info" onclick="carregarDados()">🔄 Atualizar</button>
+                    <button class="btn btn-danger" onclick="logout()">🚪 Sair</button>
+                </div>
+            </header>
+
+            <!-- Painel de Distribuição -->
+            <div class="distribution-panel">
+                <h2>⚙️ Configuração de Distribuição Inteligente</h2>
+                
+                <div class="distribution-config">
+                    <div class="config-group">
+                        <label>Número de Vendedores:</label>
+                        <input type="number" id="numVendedores" min="1" max="50" value="5" onchange="atualizarPesosVendedores()">
+                    </div>
+
+                    <div class="config-group">
+                        <label>Atributo para Distribuição:</label>
+                        <select id="atributoPeso">
+                            <option value="dias_sem_comprar">⏱️ Dias sem Comprar (urgência)</option>
+                            <option value="prioridade">⭐ Prioridade (maior primeiro)</option>
+                            <option value="valor_total">💵 Valor Total Compras</option>
+                            <option value="vendedor_anterior">👤 Vendedor Anterior (prioridade)</option>
+                            <option value="aleatorio">🎲 Aleatório</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <label>Pesos por Vendedor (1.0 = normal, 1.5 = 50% a mais, 0.5 = 50% a menos):</label>
+                    <div class="weight-inputs" id="weightInputs">
+                        <!-- Gerado dinamicamente -->
+                    </div>
+                </div>
+
+                <div class="distribution-actions">
+                    <button class="btn btn-success" onclick="distribuirClientes()">🎯 Distribuir Clientes</button>
+                    <button class="btn btn-warning" onclick="liberarTodos()">🔓 Liberar Todos</button>
+                    <button class="btn btn-info" onclick="exportarTodos()">📋 Copiar Todos Vendedores</button>
+                </div>
+
+                <div id="alertContainer"></div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="stats" id="statsContainer">
+                <!-- Gerado dinamicamente -->
+            </div>
+
+            <!-- Cards de Vendedores -->
+            <div class="vendedores-grid" id="vendedoresGrid">
+                <!-- Gerado dinamicamente -->
+            </div>
+
+            <!-- Tabela de Clientes -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>📊 Todos os Clientes</h2>
+                    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar por nome, celular ou email..." onkeyup="filtrarTabela()">
+                </div>
+                <table id="clientesTable">
+                    <thead>
+                        <tr>
+                            <th onclick="ordenarTabela(0)">ID</th>
+                            <th onclick="ordenarTabela(1)">Nome</th>
+                            <th onclick="ordenarTabela(2)">Celular</th>
+                            <th onclick="ordenarTabela(3)">Email</th>
+                            <th onclick="ordenarTabela(4)">Período</th>
+                            <th onclick="ordenarTabela(5)">Dias</th>
+                            <th onclick="ordenarTabela(6)">Valor Total</th>
+                            <th onclick="ordenarTabela(7)">Prior.</th>
+                            <th onclick="ordenarTabela(8)">Vendedor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientesTableBody">
+                        <!-- Gerado dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Cliente -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h2>✏️ Editar Cliente</h2>
+            <div id="editClienteNome"></div>
+            <input type="hidden" id="editClienteId">
+            
+            <div class="form-group">
+                <label>⭐ Prioridade (0-10):</label>
+                <input type="number" id="editPrioridade" min="0" max="10">
+            </div>
+            
+            <div class="form-group">
+                <label> Observações:</label>
+                <textarea id="editObservacoes"></textarea>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-success" onclick="salvarEdicao()">💾 Salvar</button>
+                <button class="btn btn-danger" onclick="fecharModal('editModal')">❌ Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Exportar Vendedor -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <h2>📋 Exportar Clientes</h2>
+            <p style="margin-bottom: 15px; color: #666;">Copie e cole essa lista para enviar ao vendedor</p>
+            
+            <div class="copy-container">
+                <textarea class="copy-textarea" id="exportTextarea" readonly></textarea>
+                <button class="copy-btn" onclick="copiarTexto()">📋 Copiar</button>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-danger" onclick="fecharModal('exportModal')">❌ Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let clientes = [];
+        let stats = {};
+
+        // Login
+        function fazerLogin() {
+            const usuario = document.getElementById('loginUsuario').value;
+            const senha = document.getElementById('loginSenha').value;
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario, senha })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('appContainer').style.display = 'block';
+                carregarDados();
+            })
+            .catch(err => {
+                alert('❌ Erro no login: ' + err.message);
+            });
+        }
+
+        function logout() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('appContainer').style.display = 'none';
+        }
+
+        // Carregar dados
+        async function carregarDados() {
+            try {
+                const [clientesRes, statsRes, configRes] = await Promise.all([
+                    fetch('/api/clientes'),
+                    fetch('/api/estatisticas'),
+                    fetch('/api/config/vendedores')
+                ]);
+
+                clientes = await clientesRes.json();
+                stats = await statsRes.json();
+                const config = await configRes.json();
+
+                document.getElementById('numVendedores').value = config.num_vendedores;
+                atualizarPesosVendedores();
+                
+                renderizarStats();
+                renderizarVendedores();
+                renderizarTabela();
+            } catch (err) {
+                mostrarAlerta('Erro ao carregar dados: ' + err.message, 'error');
+            }
+        }
+
+        // Atualizar pesos dos vendedores
+        function atualizarPesosVendedores() {
+            const num = parseInt(document.getElementById('numVendedores').value);
+            const container = document.getElementById('weightInputs');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= num; i++) {
+                const div = document.createElement('div');
+                div.className = 'weight-input-group';
+                div.innerHTML = `
+                    <label>Vendedor #${i}:</label>
+                    <input type="number" id="peso${i}" value="1.0" step="0.1" min="0.1" max="5.0">
+                `;
+                container.appendChild(div);
+            }
+        }
+
+        // Distribuir clientes
+        async function distribuirClientes() {
+            const numVendedores = parseInt(document.getElementById('numVendedores').value);
+            const atributo = document.getElementById('atributoPeso').value;
+            
+            const pesos = [];
+            for (let i = 1; i <= numVendedores; i++) {
+                const peso = parseFloat(document.getElementById(`peso${i}`).value);
+                pesos.push(peso);
+            }
+
+            try {
+                const res = await fetch('/api/distribuir', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        num_vendedores: numVendedores,
+                        atributo_peso: atributo,
+                        pesos_vendedores: pesos
+                    })
+                });
+
+                const data = await res.json();
+                
+                let detalhes = `<br><strong>Detalhes:</strong><ul>`;
+                data.detalhes.forEach(d => {
+                    detalhes += `<li>Vendedor #${d.vendedor_id}: ${d.clientes_alocados} clientes (${d.percentual}%) - Peso: ${d.peso}</li>`;
+                });
+                detalhes += `</ul><small>Critério: ${data.criterio}</small>`;
+                
+                mostrarAlerta(data.message + detalhes, 'success');
+                carregarDados();
+            } catch (err) {
+                mostrarAlerta('Erro ao distribuir: ' + err.message, 'error');
+            }
+        }
+
+        // Liberar todos
+        async function liberarTodos() {
+            if (!confirm('Tem certeza que deseja liberar TODOS os clientes?')) return;
+
+            try {
+                const res = await fetch('/api/liberar-todos', { method: 'POST' });
+                const data = await res.json();
+                mostrarAlerta(data.message, 'success');
+                carregarDados();
+            } catch (err) {
+                mostrarAlerta('Erro ao liberar: ' + err.message, 'error');
+            }
+        }
+
+        // Rebalancear automaticamente
+        async function rebalancearAutomatico() {
+            if (!confirm('Deseja rebalancear automaticamente os clientes? Vendedores livres receberão novos clientes dos vendedores ocupados.')) return;
+
+            try {
+                const res = await fetch('/api/rebalancear-automatico', { method: 'POST' });
+                const data = await res.json();
+                
+                if (data.rebalanceado) {
+                    mostrarAlerta(`✅ ${data.message}\n\nVendedores livres: ${data.vendedores_livres.join(', ')}\nClientes redistribuídos: ${data.clientes_redistribuidos}`, 'success');
+                } else {
+                    mostrarAlerta(data.message, 'info');
+                }
+                
+                carregarDados();
+            } catch (err) {
+                mostrarAlerta('Erro ao rebalancear: ' + err.message, 'error');
+            }
+        }
+
+        // Exportar vendedor específico
+        async function exportarVendedor(vendedorId) {
+            try {
+                const res = await fetch(`/api/exportar/vendedor/${vendedorId}`);
+                const data = await res.json();
+                
+                document.getElementById('exportTextarea').value = data.texto;
+                document.getElementById('exportModal').style.display = 'flex';
+            } catch (err) {
+                mostrarAlerta('Erro ao exportar: ' + err.message, 'error');
+            }
+        }
+
+        // Exportar todos os vendedores
+        async function exportarTodos() {
+            try {
+                const res = await fetch('/api/exportar/todos');
+                const data = await res.json();
+                
+                document.getElementById('exportTextarea').value = data.texto;
+                document.getElementById('exportModal').style.display = 'flex';
+            } catch (err) {
+                mostrarAlerta('Erro ao exportar: ' + err.message, 'error');
+            }
+        }
+
+        // Copiar texto
+        function copiarTexto() {
+            const textarea = document.getElementById('exportTextarea');
+            textarea.select();
+            document.execCommand('copy');
+            mostrarAlerta('✅ Texto copiado para área de transferência!', 'success');
+        }
+
+        // Editar cliente
+        function editarCliente(id) {
+            const cliente = clientes.find(c => c.id === id);
+            if (!cliente) return;
+
+            document.getElementById('editClienteId').value = cliente.id;
+            document.getElementById('editClienteNome').innerHTML = `<h3>${cliente.nome}</h3>`;
+            document.getElementById('editPrioridade').value = cliente.prioridade;
+            document.getElementById('editObservacoes').value = cliente.observacoes || '';
+            
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        // Salvar edição
+        async function salvarEdicao() {
+            const id = document.getElementById('editClienteId').value;
+            const dados = {
+                prioridade: parseInt(document.getElementById('editPrioridade').value),
+                observacoes: document.getElementById('editObservacoes').value
+            };
+
+            try {
+                await fetch(`/api/clientes/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+
+                mostrarAlerta('✅ Cliente atualizado com sucesso!', 'success');
+                fecharModal('editModal');
+                carregarDados();
+            } catch (err) {
+                mostrarAlerta('Erro ao salvar: ' + err.message, 'error');
+            }
+        }
+
+        // Marcar como contatado
+        async function marcarContatado(id) {
+            const obs = prompt('Observações sobre o contato (opcional):');
+            if (obs === null) return;
+
+            try {
+                await fetch(`/api/marcar-contatado/${id}?observacoes=${encodeURIComponent(obs)}`, {
+                    method: 'POST'
+                });
+
+                mostrarAlerta('✅ Cliente marcado como contatado!', 'success');
+                carregarDados();
+            } catch (err) {
+                mostrarAlerta('Erro: ' + err.message, 'error');
+            }
+        }
+
+        // Renderizar stats
+        function renderizarStats() {
+            const container = document.getElementById('statsContainer');
+            container.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${stats.total_clientes}</div>
+                    <div class="stat-label">Total Clientes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.disponiveis}</div>
+                    <div class="stat-label">Disponíveis</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.atribuidos}</div>
+                    <div class="stat-label">Atribuídos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.contatados}</div>
+                    <div class="stat-label">Contatados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.num_vendedores}</div>
+                    <div class="stat-label">Vendedores Ativos</div>
+                </div>
+            `;
+        }
+
+        // Renderizar vendedores
+        function renderizarVendedores() {
+            const container = document.getElementById('vendedoresGrid');
+            container.innerHTML = '';
+
+            stats.vendedores.forEach(v => {
+                const card = document.createElement('div');
+                card.className = 'vendedor-card';
+                card.onclick = () => exportarVendedor(v.vendedor_id);
+                card.innerHTML = `
+                    <h3>📦 Vendedor #${v.vendedor_id}</h3>
+                    <div class="vendedor-stat">
+                        <span>Pendentes:</span>
+                        <strong>${v.pendentes}</strong>
+                    </div>
+                    <div class="vendedor-stat">
+                        <span>Contatados:</span>
+                        <strong>${v.contatados}</strong>
+                    </div>
+                    <div class="vendedor-stat">
+                        <span>Taxa:</span>
+                        <strong>${v.taxa_conversao}%</strong>
+                    </div>
+                    <button class="btn btn-info" style="width: 100%; margin-top: 10px;" onclick="event.stopPropagation(); exportarVendedor(${v.vendedor_id})">
+                        📋 Copiar Lista
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Renderizar tabela
+        function renderizarTabela() {
+            const tbody = document.getElementById('clientesTableBody');
+            tbody.innerHTML = '';
+
+            clientes.forEach(c => {
+                let badgeClass = '';
+                if (c.periodo.includes('Urgente')) badgeClass = 'badge-urgente';
+                else if (c.periodo.includes('Atenção')) badgeClass = 'badge-atencao';
+                else if (c.periodo.includes('Moderado')) badgeClass = 'badge-moderado';
+                else if (c.periodo.includes('Crítico')) badgeClass = 'badge-critico';
+                else badgeClass = 'badge-ativo';
+
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${c.id}</td>
+                    <td>${c.nome}</td>
+                    <td>${c.celular}</td>
+                    <td>${c.email}</td>
+                    <td><span class="badge ${badgeClass}">${c.periodo}</span></td>
+                    <td>${c.dias_sem_comprar}</td>
+                    <td>R$ ${c.valor_total_compras.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                    <td>${c.prioridade}/10</td>
+                    <td>${c.vendedor_id ? `#${c.vendedor_id}` : '-'}</td>
+                    <td class="action-btns">
+                        <button class="btn-small btn-edit" onclick="editarCliente(${c.id})">✏️</button>
+                        ${!c.contatado ? `<button class="btn-small btn-contact" onclick="marcarContatado(${c.id})">✅</button>` : '✓'}
+                    </td>
+                `;
+            });
+        }
+
+        // Filtrar tabela
+        function filtrarTabela() {
+            const input = document.getElementById('searchBox').value.toLowerCase();
+            const tbody = document.getElementById('clientesTableBody');
+            const rows = tbody.getElementsByTagName('tr');
+
+            for (let row of rows) {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(input) ? '' : 'none';
+            }
+        }
+
+        // Ordenar tabela
+        let ordemAscendente = true;
+        function ordenarTabela(coluna) {
+            const tbody = document.getElementById('clientesTableBody');
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+            rows.sort((a, b) => {
+                const aText = a.cells[coluna].textContent;
+                const bText = b.cells[coluna].textContent;
+                
+                const aNum = parseFloat(aText.replace(/[^0-9.-]/g, ''));
+                const bNum = parseFloat(bText.replace(/[^0-9.-]/g, ''));
+                
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return ordemAscendente ? aNum - bNum : bNum - aNum;
+                }
+                
+                return ordemAscendente ? aText.localeCompare(bText) : bText.localeCompare(aText);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+            ordemAscendente = !ordemAscendente;
+        }
+
+        // Modal
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Alerta
+        function mostrarAlerta(mensagem, tipo) {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${tipo}`;
+            alert.innerHTML = mensagem;
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

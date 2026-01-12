@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - CRM Kanban</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>👑 Painel Administrativo</h1>
+                    <span class="user-info">Admin</span>
+                </div>
+                <div class="header-right">
+                    <button id="redistribuirBtn" class="btn btn-primary">🔄 Redistribuir Todos</button>
+                    <button id="logoutBtn" class="btn btn-secondary">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Estatísticas Gerais -->
+        <section class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <h3 id="totalClientes">0</h3>
+                    <p>Total de Clientes</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-info">
+                    <h3 id="clientes3060">0</h3>
+                    <p>Clientes 30-60 dias</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-info">
+                    <h3 id="clientesDisponiveis">0</h3>
+                    <p>Disponíveis</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <h3 id="clientesContatados">0</h3>
+                    <p>Contatados</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <h3 id="vendedoresOnline">0</h3>
+                    <p>Vendedores Online</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs de Navegação -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('periodos')">📅 Clientes por Período</button>
+            <button class="tab" onclick="switchTab('todos')">📋 Todos os Clientes</button>
+            <button class="tab" onclick="switchTab('vendedores')">👥 Performance Vendedores</button>
+        </div>
+
+        <!-- Tab: Clientes por Período -->
+        <section id="tabPeriodos" class="tab-content active">
+            <div class="periodos-grid">
+                <div class="periodo-section">
+                    <h3 class="periodo-title">🔥 Urgente (30-45 dias)</h3>
+                    <div id="clientes30_45" class="clientes-mini-list"></div>
+                </div>
+                <div class="periodo-section">
+                    <h3 class="periodo-title">⚠️ Atenção (45-60 dias)</h3>
+                    <div id="clientes45_60" class="clientes-mini-list"></div>
+                </div>
+                <div class="periodo-section">
+                    <h3 class="periodo-title">⏰ Moderado (60-90 dias)</h3>
+                    <div id="clientes60_90" class="clientes-mini-list"></div>
+                </div>
+                <div class="periodo-section">
+                    <h3 class="periodo-title">📊 Crítico (>90 dias)</h3>
+                    <div id="clientesMais90" class="clientes-mini-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab: Todos os Clientes -->
+        <section id="tabTodos" class="tab-content">
+            <div class="search-bar">
+                <input type="text" id="searchClientes" placeholder="🔍 Buscar cliente..." class="search-input">
+            </div>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Celular</th>
+                            <th>Dias Inativos</th>
+                            <th>Ticket Total</th>
+                            <th>Status</th>
+                            <th>Vendedor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="todosClientesList"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tab: Performance Vendedores -->
+        <section id="tabVendedores" class="tab-content">
+            <div class="vendedores-performance" id="vendedoresPerformance"></div>
+        </section>
+    </div>
+
+    <!-- Modal de Realocação -->
+    <div id="realocacaoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔄 Realocar Cliente</h2>
+                <button class="close-btn" onclick="closeRealocacaoModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3 id="modalClienteNome"></h3>
+                <p id="modalClienteInfo"></p>
+                <div class="form-group">
+                    <label for="selectVendedor">Selecione o Vendedor</label>
+                    <select id="selectVendedor" class="form-control">
+                        <option value="">Carregando...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeRealocacaoModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="confirmarRealocacao()">Realocar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/admin-script.js"></script>
+</body>
+</html>

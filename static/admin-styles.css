@@ -1,0 +1,382 @@
+/* Admin-specific styles */
+.admin-layout {
+    min-height: 100vh;
+    background: var(--background);
+}
+
+.admin-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 24px 0;
+    box-shadow: var(--shadow-lg);
+}
+
+.admin-header .header-content {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: white;
+}
+
+.admin-header .user-info {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.admin-stats {
+    max-width: 1600px;
+    margin: 32px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* Tabs */
+.tabs {
+    max-width: 1600px;
+    margin: 32px auto 0;
+    padding: 0 24px;
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid var(--border);
+}
+
+.tab {
+    padding: 12px 24px;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.tab:hover {
+    color: var(--primary);
+}
+
+.tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+    max-width: 1600px;
+    margin: 32px auto;
+    padding: 0 24px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Períodos Grid */
+.periodos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+}
+
+.periodo-section {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+}
+
+.periodo-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+}
+
+.clientes-mini-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.cliente-mini-card {
+    background: var(--background);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-left: 4px solid var(--primary);
+    transition: all 0.2s;
+}
+
+.cliente-mini-card:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow);
+}
+
+.cliente-mini-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.cliente-mini-nome {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.cliente-mini-dias {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+}
+
+.cliente-mini-info {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.cliente-mini-vendedor {
+    font-size: 12px;
+    color: var(--success);
+    font-weight: 500;
+}
+
+.cliente-mini-disponivel {
+    font-size: 12px;
+    color: var(--warning);
+    font-weight: 500;
+}
+
+/* Table */
+.search-bar {
+    margin-bottom: 24px;
+}
+
+.table-container {
+    background: var(--surface);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table thead {
+    background: var(--primary);
+    color: white;
+}
+
+.admin-table th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.admin-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.admin-table tbody tr:hover {
+    background: var(--background);
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-disponivel {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+.status-atribuido {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+}
+
+.status-contatado {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.status-ativo {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.table-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* Performance Vendedores */
+.vendedores-performance {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.vendedor-performance-card {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    transition: all 0.2s;
+}
+
+.vendedor-performance-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.vendedor-performance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.vendedor-performance-nome {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.vendedor-performance-online {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.vendedor-performance-online.online {
+    color: var(--success);
+}
+
+.vendedor-performance-online.offline {
+    color: var(--text-secondary);
+}
+
+.vendedor-performance-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.performance-stat {
+    text-align: center;
+}
+
+.performance-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.performance-stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.vendedor-taxa-conversao {
+    text-align: center;
+    padding: 16px;
+    background: var(--background);
+    border-radius: 8px;
+}
+
+.taxa-conversao-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 4px;
+}
+
+.taxa-conversao-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .periodos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .tab {
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .vendedores-performance {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Kanban - Sistema de Vendas</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>🎯 CRM Kanban</h1>
+                    <p>Sistema de Gestão de Clientes</p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Usuário</label>
+                        <select id="username" required>
+                            <option value="">Selecione seu perfil</option>
+                            <option value="Admin">Admin (Administrador)</option>
+                            <option value="">── Vendedores ──</option>
+                            <option value="João Silva">João Silva</option>
+                            <option value="Maria Santos">Maria Santos</option>
+                            <option value="Pedro Oliveira">Pedro Oliveira</option>
+                            <option value="Ana Costa">Ana Costa</option>
+                            <option value="Carlos Ferreira">Carlos Ferreira</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" placeholder="Digite sua senha" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                    <div id="loginError" class="error-message"></div>
+                </form>
+                <div class="login-info">
+                    <small>💡 Vendedores: 123456 | Admin: admin123</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela Principal -->
+    <div id="dashboardScreen" class="screen">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>🎯 CRM Kanban</h1>
+                    <span class="user-info">Olá, <strong id="userName"></strong></span>
+                </div>
+                <div class="header-right">
+                    <span class="online-status">
+                        <span class="status-dot"></span>
+                        <span id="onlineCount">0</span> vendedores online
+                    </span>
+                    <button id="logoutBtn" class="btn btn-secondary">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Estatísticas -->
+        <section class="stats-section">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <h3 id="statPendentes">0</h3>
+                    <p>Clientes Pendentes</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <h3 id="statContatados">0</h3>
+                    <p>Clientes Contatados</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📱</div>
+                <div class="stat-info">
+                    <h3 id="statTotal">0</h3>
+                    <p>Total Atribuídos</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lista de Vendedores Online -->
+        <section class="vendedores-section">
+            <h2>👥 Vendedores Online</h2>
+            <div id="vendedoresList" class="vendedores-list"></div>
+        </section>
+
+        <!-- Clientes Kanban -->
+        <section class="kanban-section">
+            <div class="kanban-header">
+                <h2>📋 Meus Clientes para Contatar</h2>
+                <button id="refreshBtn" class="btn btn-refresh">🔄 Atualizar</button>
+            </div>
+            <div class="filter-section">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar cliente..." class="search-input">
+            </div>
+            <div id="clientesList" class="clientes-grid"></div>
+            <div id="emptyState" class="empty-state">
+                <div class="empty-icon">📭</div>
+                <h3>Nenhum cliente atribuído</h3>
+                <p>Aguarde a distribuição de novos clientes ou entre em contato com o gestor.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal de Contato -->
+    <div id="contatoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✅ Marcar Cliente como Contatado</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3 id="modalClienteNome"></h3>
+                <p id="modalClienteCelular"></p>
+                <div class="form-group">
+                    <label for="observacoes">Observações do Contato</label>
+                    <textarea id="observacoes" rows="4" placeholder="Ex: Cliente interessado em produtos X, solicitou desconto, agendar nova ligação..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="confirmarContato()">Confirmar Contato</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
