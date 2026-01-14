@@ -1,5 +1,5 @@
 """
-CRM Kanban v4.0 - SISTEMA EXCLUSIVO ADMINISTRADOR
+Painel Vendedor - SISTEMA EXCLUSIVO ADMINISTRADOR
 Sistema avançado com distribuição customizável por atributos
 Vendedores são apenas identificadores numéricos, sem login
 """
@@ -181,7 +181,7 @@ async def lifespan(app: FastAPI):
 
 # ==================== FASTAPI APP ====================
 app = FastAPI(
-    title="CRM Kanban v4.0 - Admin Only",
+    title="Painel Vendedor - Admin Only",
     description="Sistema avançado exclusivo para administrador com distribuição customizável",
     version="4.0.0",
     lifespan=lifespan

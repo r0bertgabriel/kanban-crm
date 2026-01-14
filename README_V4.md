@@ -1,4 +1,4 @@
-# 🎯 CRM Kanban v4.0 - Sistema Exclusivo Administrador
+# 🎯 Painel Vendedor - Sistema Exclusivo Administrador
 
 ![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.8+-green.svg)

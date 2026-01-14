@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Iniciando CRM Kanban v4.0 - Sistema Admin Only"
+echo "🚀 Iniciando Painel Vendedor - Sistema Admin Only"
 echo "================================================"
 echo ""
 echo "📋 Verificando dependências..."

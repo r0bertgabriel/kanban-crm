@@ -1,4 +1,4 @@
-# 📚 ÍNDICE - CRM KANBAN v4.0
+# 📚 ÍNDICE - Painel Vendedor
 
 ## 🎯 NAVEGAÇÃO RÁPIDA
 
@@ -432,7 +432,7 @@ Ctrl + C
 
 ### O Sistema
 ```
-Nome:     CRM Kanban v4.0
+Nome:     Painel Vendedor
 Tipo:     Sistema Admin Only
 Função:   Distribuição inteligente de clientes
 Público:  Administrador técnico
